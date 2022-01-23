@@ -15,7 +15,6 @@
 # Please submit bugfixes or comments via https://bugs.opensuse.org/
 #
 
-
 %define asan_build     0
 
 %define	libname	lib%{name}21
@@ -39,11 +38,10 @@ Patch3:         djvulibre-CVE-2021-32493.patch
 Patch4:         djvulibre-CVE-2021-3500.patch
 BuildRequires:  fdupes
 BuildRequires:  gcc-c++
-BuildRequires:  hicolor-icon-theme
-BuildRequires:  libjpeg-devel
+#BuildRequires:  hicolor-icon-theme
+BuildRequires:  libjpeg-turbo-devel
 # libtool needed to regenerate missing configure script (v 3.5.28)
 BuildRequires:  libtool
-BuildRequires:  pkg-config
 BuildRequires:  pkgconfig(libtiff-4)
 
 %description
@@ -57,7 +55,7 @@ resources than competing formats.
 
 %package -n %{libname}
 Summary:        DjVu rendering library
-Group:          Productivity/Graphics/Other
+#Group:          Productivity/Graphics/Other
 
 %description -n  %{libname}
 DjVuLibre is an implementation of DjVu, a Web-centric format and
@@ -67,7 +65,7 @@ This package contains the shared libraries.
 
 %package -n libdjvulibre-devel
 Summary:        Headers for djvulibre libraries
-Group:          Development/Libraries/Other
+#Group:          Development/Libraries/Other
 Requires:       %{libname} = %{version}
 
 %description -n libdjvulibre-devel
@@ -78,7 +76,7 @@ This package contains the development files.
 
 %package doc
 Summary:        Documentation for djvulibre
-Group:          Productivity/Graphics/Other
+#Group:          Productivity/Graphics/Other
 BuildArch:      noarch
 
 %description doc
@@ -88,6 +86,7 @@ software platform for distributing documents and images.
 This package contains the documentation.
 
 %prep
+%autosetup -n %{name}-%{version}/%{name}
 %setup -q
 %patch0 -p1
 %patch1 -p1
@@ -112,25 +111,25 @@ make %{?_smp_mflags}
 %make_install
 
 # do not ship these
-rm %{buildroot}%{_libdir}/libdjvulibre.la
+#rm %{buildroot}%{_libdir}/libdjvulibre.la
 
 %fdupes %{buildroot}/%{_prefix}
 
-%if 0%{?suse_version} < 1550
-%post
-%icon_theme_cache_post
+#%if 0%{?suse_version} < 1550
+#%post
+#%icon_theme_cache_post
 
-%postun
-%icon_theme_cache_postun
-%endif
+#%postun
+#%icon_theme_cache_postun
+#%endif
 
 %post  -n  %{libname} -p /sbin/ldconfig
 
 %postun -n  %{libname} -p /sbin/ldconfig
 
 %files
-%license COPYING COPYRIGHT
-%doc NEWS README
+#%license COPYING COPYRIGHT
+#%doc NEWS README
 %doc %{_mandir}/man1/*
 %{_datadir}/djvu
 %{_bindir}/*
@@ -145,7 +144,7 @@ rm %{buildroot}%{_libdir}/libdjvulibre.la
 %{_includedir}/libdjvu/*.h
 %{_libdir}/pkgconfig/ddjvuapi.pc
 
-%files doc
-%doc doc/*
+#%files doc
+#%doc doc/*
 
 %changelog
